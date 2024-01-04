@@ -35,31 +35,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 en/enable - privillage exect mood (#) show krnne meke 
 sh run   // show all configurations
 
@@ -86,10 +61,15 @@ Switch(config)#ip default-gateway 192.168.10.1
 Switch(config)#exit
 Switch#
 
+router - 4321 (gig), 2811(fastethrnet)
+port - NIM-2T
+
+swich - 2960
+
 // router ekt ip dann gigabitethernet 0/0ta
 Router# conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
-Router(config)#int gig0/0/0
+Router(config)#int gig0/0/0 //s0/1/0 or f0/0
 Router(config-if)#ip address 192.168.10.1 255.255.255.0
 Router(config-if)#no sh
 Router(config-if)#no shutdown // kolapata thrikone
@@ -172,7 +152,6 @@ Open DHCP Server in CLI
 #en
 #config t
 #ip dhcp excluded-address 192.168.1.1 192.168.1.10
-Open PC0 and obtain the IP address automatically and see what will happen.
 
 //dns server eka config
 desktop --> ipconfiguration
@@ -201,7 +180,6 @@ Switch#show vl //show all vlans
 
 
 //Assign VLANs to Ports
-
 Switch#conf t
 Switch(config)#int f0/1
 Switch(config-if)#switchport access vlan 10
