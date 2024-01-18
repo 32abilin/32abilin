@@ -1,1182 +1,227 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-file --> new --> marven --> click first check box --> next --> group id, artfat id ,name --> finish
-//chromedriver 
-
-//add libraries
-rightclick ---> buildpath ---> config buildpath ---> java buildpath ----> add external jars ---> apply close
-
-//create class
-right click on projrct --> new --> class --> give name tick public static
-
-//remove red icon 
-rigth click --> marven --> update project --> tick force update of --> ok
-
-
-------------------------------------------------------------------------------
-//Auto fill form 
-
-package form;
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-public class FormUser {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		
-		driver.navigate().to("C:/Users/Masha/Downloads/registration/home.html");
-		driver.manage().window().maximize();
-		
-		driver.findElement(By.id("firstname")).sendKeys("Jonny Williamson");
-		//---driver.findElement(By.className("myname")).sendKeys("rishitha");
-		//---driver.findElement(By.id("lastname")).sendKeys("Anna Williamson");
-		driver.findElement(By.name("pass1")).sendKeys("0123456789");
-		
-		driver.findElement(By.id("email")).sendKeys("Jonnywill18@yahoo.com");
-
-		//radio button
-		WebElement radio1 = driver.findElement(By.id("male"));
-		radio1.click();
-	
-		//check box
-		WebElement option1 = driver.findElement(By.className("automation2"));
-		option1.click();
-	
-		WebElement option2 = driver.findElement(By.className("automation3"));
-		option2.click();
-
-		//selection
-		driver.findElement(By.id("country")).sendKeys("Sri Lanka");
-
-		
-		
-		WebElement password =driver.findElement(By.id("password"));
-		password.sendKeys("Will@anne2021");
-		WebElement confirmpassword = driver.findElement(By.id("confirm-password"));
-		confirmpassword.sendKeys("Will@anne2021");
-		 if (password.equals(confirmpassword)) {
-	            System.out.println("passwords are equal");
-	        } else {
-	            System.out.println("passwords are not equal");
-	            //return;
-	        }
-		
-		driver.findElement(By.id("male")).click();
-		driver.findElement(By.id("level")).sendKeys("Self-employed");
-		driver.findElement(By.xpath("/html/body/form/div[2]/div[4]/div[2]/div/label[1]/input")).click();
-		driver.findElement(By.xpath("/html/body/form/div[2]/div[4]/div[2]/div/label[3]/input")).click();
-		
-		WebElement income = driver.findElement(By.id("experience"));
-		income.click();
-		
-		driver.findElement(By.id("choose-file")).sendKeys("C://Users/Masha/Downloads/registration/images.jpg");
-		
-		WebElement ageInput = driver.findElement(By.xpath("/html/body/form/div[2]/div[6]/div[2]/input"));
-        	ageInput.clear(); 
-        	ageInput.sendKeys("30");
-        
-        	driver.findElement(By.xpath("/html/body/form/div[2]/div[7]/textarea")).sendKeys("Williamson is a software engineer with extensive experience and management skill and works for hi-tech telecommunication company");
-		
-		
-		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
-
-	}
-
-}
-
---------------------------------------------------------------------------
-//connect database
-open XAMP start apache and mysql
-folder paste to htdocs
-htdocs--> employee---> db-connection.php --> get database name(third one)
-XAMP --> mysql admin --> create database
-import --> choose file --> htdocs/employee/database/attendance.sql --> import
-goto admin apache --> type in address bar localhost/employee/admin ---> input user name and password
-
-//Admin login
-package employee_admin;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-public class admin_login {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		//load the chrome driver
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		
-		//navigate the page (login interface page)
-		driver.navigate().to("http://localhost/employee/admin");
-
-		//maximize the window
-		driver.manage().window().maximize();
-		
-		//pass the value for username
-		//driver.findElement(By.name("username")).sendKeys("admin");
-		
-		//pass the value for password
-		//driver.findElement(By.name("password")).sendKeys("admin123");
-		
-
-                //input to the text box for username
-		WebElement getTitle1 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div/div[2]/form/div[1]/input"));
-		getTitle1.sendKeys("admin");
-		
-		
-		//input to the text box for password
-		WebElement getTitle2 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div/div[2]/form/div[2]/input"));
-		getTitle2.sendKeys("admin123");
-		
-		//validate the username ...
-		if(getTitle1.getAttribute("value").isEmpty())
-		{
-			System.out.println("Username is Empty");
-		}
-		
-		 //validate the password ...
-		else if(getTitle2.getAttribute("value").isEmpty())
-		{
-		   System.out.println("Password is Empty");
-		}				
-		else 
-		{
-			//submit action for login button
-			driver.findElement(By.xpath("//button[contains(text(),'Login ')]")).click();
-		
-			//click submenu - employee submenu
-			driver.findElement(By.xpath("/html/body/div[1]/div[2]/a")).click();
-			
-		        //check the Url for employee sub menu page
-			String actualUrl = "http://localhost/employee/admin/employee.php";
-			String expecteUrl = driver.getCurrentUrl();
-			
-			if(actualUrl.equalsIgnoreCase(expecteUrl))
-		
-			{
-				//success message for going employee of  element of submenu
-				//System.out.println("Test Passed");
-			    
-				//search something in the searching bar (search box)
-				driver.findElement(By.xpath("//*[@id=\"table_filter\"]/label/input")).sendKeys("pa");
-			
-			
-			}
-			
-			else 
-			{
-				System.out.println("Test Failed");
-			}
-			
-		}			
-		
-		//submit action for cancel button
-		//driver.findElement(By.xpath("//button[contains(text(),'Cancel')]")).click();
-						
-	}
-	}
-
-
-------------------------------------------------------------------
-//User admin code
-
-package employee_admin1;
-
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-public class user_admin {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		//load the chromedriver
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		
-		//navigate the page
-		driver.navigate().to("http://localhost/employee/admin/");
-		
-		//maximize the window
-		driver.manage().window().maximize();
-	
-  		//pass username
-  	 	WebElement getname = driver.findElement(By.name("username"));
-   		getname.sendKeys("admin");
-		
-   		//pass password
-   		WebElement getpass = driver.findElement(By.name("password"));
-   		getpass.sendKeys("admin123");
-
-       		//validation for username
-		if(getname.getAttribute("value").isEmpty()) 
-		{
-			System.out.println("username is empty");
-		}
-		
-		//validation for password
-		else if(getpass.getAttribute("value").isEmpty()) 
-		{
-			System.out.println("password is empty");
-		}
-		
-		else {
-			//login button
-			driver.findElement(By.xpath("//button[contains(text(),'Login ')]")).click();
-			
-			// sub menu ( users sub menu )
-			driver.findElement(By.xpath("/html/body/div[1]/div[4]/a")).click();
-			
-			
-			// check the URL = USER PAGE
-			
-			String actualUrl = "http://localhost/employee/admin/users.php";
-			String expecteUrl = driver.getCurrentUrl();
-			
-			if(actualUrl.equalsIgnoreCase(expecteUrl)) 
-			{
-				
-		System.out.println("Test is passed");
-				
-       		// search something | search bar				
-       		driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/label/input")).sendKeys("Sa");
-		
-        	//display page title
-        	System.out.println("Page Title is : " + driver.getTitle());
-			
-          
-      		// click add new button to add new user
-        	driver.findElement(By.xpath("/html/body/div[2]/div[4]/button")).click();
-          
-       		// time limit
-        	driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
-        
-        
-       		// filling form
-                
-        	//pass username
-        	WebElement getname1 = driver.findElement(By.name("username"));
-        	getname1.sendKeys("anu");
-     		
-        	//pass password
-        	WebElement getpass1 = driver.findElement(By.name("password"));
-        	getpass1.sendKeys("anu567");
-        
-       		//pass firstname
-        	WebElement getfirst = driver.findElement(By.name("firstname"));
-        	getfirst.sendKeys("anu");
-     		
-        	//pass lastname
-        	WebElement getlast = driver.findElement(By.name("lastname"));
-        	getlast.sendKeys("bandara");
-        
-        
-        	//validation | username
-        	if(getname1.getAttribute("value").isEmpty()) {
-        	
-        		System.out.println("Username is empty");
-        	}        
-        
-      		//validation | password
-        	else if(getpass1.getAttribute("value").isEmpty()) {
-        	
-        		System.out.println("Password is empty");
-        	}
-        
-      		//validation | firstname
-        	else if(getfirst.getAttribute("value").isEmpty()) {
-        	
-        		System.out.println("firstname is empty");
-        	}
-        
-     		 //validation | lastname
-        	else if(getlast.getAttribute("value").isEmpty()) {
-        	
-        		System.out.println("lastname is empty");
-        	}
-        
-        	// save button | save data
-        	else 
-        	{
-        	driver.findElement(By.xpath("/html/body/div[3]/div/div/form/div[2]/button")).click();
-        	
-        	
-        	// close alert msg        	
-        	try {
-        		WebDriverWait wait = new WebDriverWait(driver,2);
-        		wait.until(ExpectedConditions.alertIsPresent());
-        		Alert alert = driver.switchTo().alert();
-        		System.out.println(alert.getText());
-        		
-        		//the alert | Data successfully saved
-        		if(alert.getText().contains("Data successfully saved.")) 
-        		{
-        			Thread.sleep(5000); // for holding alert msg for few minutes
-        			alert.accept();
-        			throw new Exception(alert.getText());
-        		}
-        		
-        		// the alert | Username already exist
-        		else if(alert.getText().contains("Username already exist")) 
-        		{
-        			Thread.sleep(5000); // for holding alert msg for few minutes
-        			alert.accept();
-        			
-        			// close the filling form 
-        			driver.findElement(By.xpath("/html/body/div[3]/div/div/div/button")).click();
-        			
-        			throw new Exception(alert.getText());
-        			        			
-        		}
-        		
-        		else {
-        			throw new Exception("Loading Error!");
-        		}   		
-        		      	
-        	
-        }
-        	
-        	catch(Exception e) {
-        		
-        		// exception handling
-        	}
-			}
-			
-			}
-			else 
-			{
-				System.out.println("Test is failed");
-			}
-		}
-		
-	}
-
-}
-
-
---------------------------------------------------------------------------------------------------------
-//delete user 
-
-package employee_admin2;
-
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-public class delete_user {
-
-	public static void main(String[] args) {
-		 //TODO Auto-generated method stub
-		
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-				
-		//navigate the page
-		driver.navigate().to("http://localhost/employee/admin/");
-				
-		//maximize the window
-		driver.manage().window().maximize();
-			
-		 //pass username
-		 WebElement getname = driver.findElement(By.name("username"));
-		 getname.sendKeys("admin");
-				
-		 //pass password
-		 WebElement getpass = driver.findElement(By.name("password"));
-		 getpass.sendKeys("admin123");
-			   
-		//login button
-		driver.findElement(By.xpath("//button[contains(text(),'Login ')]")).click();
-				
-				 //sub menu ( users sub menu )
-			   driver.findElement(By.xpath("/html/body/div[1]/div[4]/a")).click();
-				
-				 //click the delete button  delete row
-				driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/table/tbody/tr[1]/td[4]/center/button[2]")).click();
-				
-				 //close alert msg - 1st alert msg
-				
-				try
-				{
-					
-					Alert alert = driver.switchTo().alert();
-					System.out.println(alert.getText());
-					
-					//Are you sure to delete this data 
-					
-					if(alert.getText().contains("Are you sure to delete this data" ))
-					{
-						
-						Thread.sleep(5000);  //for hold the alert msg for few minutes
-						alert.accept();
-						
-						
-						 //close alert msg - 2nd alert msg
-						try
-						{
-							WebDriverWait wait = new WebDriverWait(driver,2);
-							wait.until(ExpectedConditions.alertIsPresent());
-							
-							System.out.println(alert.getText());
-							alert.accept();
-												
-						}
-						
-						catch(Exception e)
-						{
-							//exception handling
-							
-						}
-										
-						
-					}  //close if condition
-					
-								
-				} //close 1st try
-				
-				catch(Exception e)
-				{
-					//exception handling
-					
-				}
-		
-
-	}
-
-}
-
-
-==================================================================================================================================
-//test NG
-
-file --> new --> java project --> give name (bri wela hri run une naththm meke execution environment JRE ekat JavaSE-1.8 daganna)---> finish ---> Right click project ---> testng ---> browse ---> tstng src ---> give class name --> choose file you create ---> type code
-
-//add selinium jars
-rightclick ---> buildpath ---> config buildpath ---> java buildpath ----> add external jars ---> apply close
-
-//Add TestNG Library
-rightclick ---> buildpath ---> Add libraries ---> select testng ---> next
-
-//run testNG
-
-run as ---> TestNG test
--------------------------------------------------------------------------------------------------------------
-//Assertion_TestNGFile
-package testngex01;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
-import org.testng.annotations.Test;
-
-public class AssertionsInTestNG {
+ID
+<!DOCTYPE html>
+<html>
+      
+<head>
     
-	@Test
-	public void test() { 
-    	
-		assertTrue(true); // passed
-		
-	}
-	
-	@Test
-	public void test1() { 
-    	
-		assertTrue(false); // failed
-		
-	}
-	
-	@Test
-	public void test2() { 
-    	
-		assertEquals("Test","Test"); // passed
-		
-	}
-	
-	@Test
-	public void test3() { 
-    	
-		assertEquals("Test","Test1"); // failed
-		
-	}
-	
-	@Test
-	public void test4() { 
-    	
-		assertFalse(false,"This is expected"); // passed
-		
-		
-	}
-	
-	@Test
-	public void test5() { 
-    	
-		assertTrue(false,"not matching the expected condition"); // failed
-				
-	}
-	
-	@Test
-	public void test6() { 
-    	
-		assertNotEquals("Test","Test1"); // passed
-				
-	}
-	
-	
-}
-
-
---------------------------------------------------------------------------------------------
-
-//DataProviderIn_TestNGFile
-
-package testngex01;
-
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-public class DataProviderInTestNG {
-
-	@DataProvider
-	public Object [][] testData(){
-		
-		Object [][] data = new Object [2][2]; // 2D object 
-		
-		data[0][0] = "test1";
-		data[0][1] = "test2";		
-		data[1][0] = "test3";
-		data[1][1] = "test4";
-		
-		return data;
-	}	
-	
-	@Test(dataProvider = "testData")
-	public void test(String s1, String s2) {
-		
-		System.out.println("S1"+" "+s1+"S2"+" "+s2);
-	}
-	
-}
-
----------------------------------------------------------------------------------------------
-//Depends_On_Methods TestNGFile
-
-package testngex01;
-
-import static org.testng.Assert.assertTrue;
-
-import org.testng.annotations.Test;
-
-public class Dependents_on_Method {
-	
-	@Test
-	public void test1() {
-	
-		assertTrue(true); // passed
-	}
-	
-	@Test(dependsOnMethods = {"test1"}) // depend on one method
-	public void test2() {
-	
-	System.out.println("Test2 is passed"); // test2 is passed ( depend on test1)
-		
-	}
-	
-	@Test(dependsOnMethods = {"test1","test2"})// depend on two methods
-	public void test3() {
-	
-	System.out.println("Test3 is passed"); // test3 is passed ( depend on test1 and test2)
-		
-	}
-	
-	@Test
-	public void test4() {
-	
-		assertTrue(false); // failed
-	}
-	
-	@Test(dependsOnMethods = {"test4"}) // depend on one method
-	public void test5() {
-	
-	System.out.println("Test5 is skipped"); // test5 is skipped ( depend on test4)
-		// test4 is failed
-	}
-	
-	@Test(dependsOnMethods = {"test3","test4"})// depend on two methods
-	public void test6() {
-	
-	System.out.println("Test6"); // test6 is skipped ( depend on test3 and test4. test4 is failed)
-		
-	}
-		
-
-}
-----------------------------------------------------------------------------------------------
-//Priority_TestNGFile
-
-package testngex01;
-
-import org.testng.annotations.Test;
-
-public class PriorityTestNG {
-
-	@Test(priority = 2)
-	public void test1() 
-	{
-		
-	}
-	
-	@Test(priority = 1)
-	public void test2() 
-	{
-		
-	}
-	
-	@Test(priority = 0)
-	public void test3() 
-	{
-		
-	}
-		
-}
-
------------------------------------------------------------------------
-//Var 1 = "Junit"
-Var 2 = "Junit"
-Var 3 = "test"
-Var 4 = "test"
-Var 5 = null
-Var 6 = 1
-Var 7 = 2
-Var 8 = [1,2,3]
-Var 9 = [1,2,3]
-
-Assert statements
-
-Q1)  assertEquals(var1,var2) ,  assertSame(var3,var4) , assertNotSame(var1,var3),  AssertNull(var5) ,  assertTrue(var6<var7) , assertarrayEqual(var8,var9)
-
-//code
-package newtest;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotSame;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertSame;
-import static org.testng.Assert.assertTrue;
-
-import org.testng.annotations.Test;
-
-
-public class New {
-String Var1 = "Junit";
-String Var2 = "Junit";
-String Var3 = "test";
-String Var4 = "test";
-String Var5 = null;
-int Var6 = 1;
-int Var7 = 2;
-int[] Var8 = {1,2,3};
-int[] Var9 = {1,2,3};
-@Test
-public void test() {
-assertEquals(Var1,Var2);
-
-}
-@Test
-public void test1() {
-assertSame(Var3,Var4);
-
-}
-@Test
-public void test2() {
-assertNotSame(Var1,Var3);
-
-}
-
-@Test
-public void test3() {
-assertNull(Var5);
-
-}
-@Test
-public void test4() {
-assertTrue(Var6) }
-@Test
-public void test5() {
-assertArrayEqual(Var8,Var9);
-
-}
-private void assertArrayEqual(int[] var82, int[] var92) {
-
-assertEquals(var82, var92);
-}
-
-}
-
-------------------------------------------------------------------
-Create new TestNG java project name as “user_demo” using Selenium Web 
-driver and Eclipse. You must use below multiple TestNG annotations and annotations 
-variables. 
-@BeforeTest, @AfterTest, @Test1, @Test2, @Test3, priority, dependsOnMethods.
-(i) Load users.php page.
-(ii) Login your System using username as “admin” and password as “admin123”. 
-a. If your input username and password wrong for login the employee 
-system then Show error message.
-(iii) Search employee first name start as “ab”. 
-a. If search value has data, then show Console message as “data 
-detected”. 
-b. Otherwise show Console message as “data undetected”
-(iv) Delete one employee recode data.
-(v) Click update user button and close the edit user popup window.
-(vi) Click Add new button and close the popup window. 
-(vii) Logout the system.
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-public class UserDemoTest {
-
-	WebDriver driver;
-	
-	@BeforeTest
-	public void setUp() {
-			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-			driver = new ChromeDriver();
-			driver.manage().window().maximize();
-	}
-	
-	@Test(priority = 1)
-	public void loadUsersPage() {
-			driver.get("http://localhost/users.php");
-	}
-	
-	@Test(priority = 2, dependsOnMethods = "loadUsersPage")
-	public void loginSystem() {
-		WebElement usernameInput = driver.findElement(By.name("username"));
-		WebElement passwordInput = driver.findElement(By.name("password"));
-		WebElement loginButton = driver.findElement(By.name("login"));
-		
-		usernameInput.sendKeys("admin");
-		passwordInput.sendKeys("admin123");
-		loginButton.click();
-		
-		WebElement errorMessage = driver.findElement(By.id("error-message"));
-		if (errorMessage.isDisplayed()) {
-		System.out.println("Error message: " + errorMessage.getText());
-		}
-	}
-	
-	@Test(priority = 3, dependsOnMethods = "loginSystem")
-	public void searchEmployee() {
-		WebElement searchInput = driver.findElement(By.name("search"));
-		WebElement searchButton = driver.findElement(By.name("submit"));
-		
-		searchInput.sendKeys("ab");
-		searchButton.click();
-		
-		
-		if (driver.findElements(By.xpath("//button[contains(text(),'delete')]")).size() > 0) {
-			System.out.println("Data detected");
-		} else {
-			System.out.println("Data undetected");
-		}
-	}
-	
-	@Test(priority = 4, dependsOnMethods = "searchEmployee")
-	public void deleteEmployeeRecord() {
-		WebElement deleteButton = driver.findElement(By.xpath("//button[contains(text(),'search')]"));
-		
-		deleteButton.click();
-	
-	}
-	
-	@Test(priority = 5, dependsOnMethods = "deleteEmployeeRecord")
-	public void closeEditUserPopup() {
-		WebElement closeButton = driver.findElement(By.id("edit-popup-close"));
-		
-		closeButton.click();
-	}
-	
-	@Test(priority = 6, dependsOnMethods = "closeEditUserPopup")
-		public void closeAddNewPopup() {
-		WebElement closeButton = driver.findElement(By.id("add-new-popup-close"));
-		
-		closeButton.click();
-	}
-	
-	@Test(priority = 7, dependsOnMethods = "closeAddNewPopup")
-		public void logoutSystem() {
-		WebElement logoutButton = driver.findElement(By.name("logout"));
-		
-		logoutButton.click();
-	}
-	
-	@AfterTest
-	public void tearDown() {
-		driver.quit();
-}
-}
-	
-
-
-*********************************************************************************************
-                                  SAHAN
-**********************************************************************************************
-                             SecondTest.java
-**********************************************************************************************
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-public class SecondTest {
+</head>
   
-	WebDriver driver;
+<body style="text-align:center;">
+      
+    <h2><u>Birthday Finder</u><br></h2>
 	
-	@BeforeTest
-	public void setup() {
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
-		driver.navigate().to("http://localhost/employee/admin");
-	}
+	<form method="post">
+		<input type="number" name="subject" placeholder="Enter NIC No">
 	
+        <input type="submit" name="Enter" value="Enter" />
+     </form>
+	 
+	 
+    <?php
 	
-	  @Test(priority = 1)
-	  public void loadUserPage() {
-		  WebElement username = driver.findElement(By.name("username"));
-		  WebElement password = driver.findElement(By.name("password"));
-		  username.sendKeys("admin");
-		  password.sendKeys("admin123");
-		  
-		  if(username.getAttribute("value").isEmpty()) {
-			  System.out.println("Username can't be empty");
-		  } else if(password.getAttribute("value").isEmpty()) {
-			  System.out.println("Password can't be empty");
-		  } else {
-			  driver.findElement(By.xpath("/html/body/div/div/div/div/div/div/div[2]/form/button")).click();
-		  }
-		  
-	  }
-	  
-	  @Test(priority = 2, dependsOnMethods = "loadUserPage")
-	  public void searchEmployee() {
-		  driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-		  driver.findElement(By.xpath("/html/body/div[1]/div[2]/a")).click();
-		  String expectedUrl = "http://localhost/employee/admin/employee.php";
-		  String currentUrl = driver.getCurrentUrl();
-		  
-		  if(expectedUrl.equalsIgnoreCase(currentUrl)) {
-			  driver.findElement(By.xpath("/html/body/div[2]/div[3]/div/div[2]/label/input")).sendKeys("ab");
-			  
-			  driver.manage().timeouts().implicitlyWait(5000, TimeUnit.SECONDS);
-			  
-			  WebElement emptyRow = driver.findElement(By.className("dataTables_empty"));
-			  
-			  if(emptyRow.isDisplayed()) {
-				  System.out.println("Data Undetected");
-			  } else {
-				  System.out.println("Data Detected");
-			  }
-		  }
-	  }
-  
-	  @AfterTest
-	  public void logout() {
-		  System.out.println("This is AFTER TEST");
-	  }
-}
+		$nic;
 
-
-**********************************************************************************************
-                             33333333
-**********************************************************************************************
-package test_05;
-
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-public class FirstClass {
-
-	public static void main(String[] args) {
-		
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		
-		WebDriver driver = new ChromeDriver();
-		
-		driver.navigate().to("http://localhost/employee/admin/");
-		
-		driver.manage().window().maximize();
-		
-		WebElement username = driver.findElement(By.name("username"));
-		WebElement password = driver.findElement(By.name("password"));
-		username.sendKeys("admin");
-		password.sendKeys("admin123");
-		
-		if(username.getAttribute("value").isEmpty()) {
-			System.out.println("Username can't be empty");
-		} else if(password.getAttribute("value").isEmpty()) {
-			System.out.println("Password can't be empty");
-		} else {
-			// login
-			driver.findElement(By.xpath("//*[@id=\"login-frm\"]/button")).click();
+		if (empty($_POST["subject"])) {
+			echo "  Empty ";
+		}
+		else{
 			
-			// wait
-			driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+			$nic = $_POST['subject'];
 			
+			$days = "$nic[4]$nic[5]$nic[6]";
+			$year = "$nic[0]$nic[1]$nic[2]$nic[3]";
 			
-			// navigate
-			driver.findElement(By.xpath("/html/body/div[1]/div[4]/a")).click();
-			
-			String actualUrl = "http://localhost/employee/admin/users.php";
-			String expectedUrl = driver.getCurrentUrl();
-			
-			if(actualUrl.equalsIgnoreCase(expectedUrl)) {
-				System.out.println("Test Passed");
-				
-				// search for an employee
-				//driver.findElement(By.xpath("//*[@id=\"table_filter\"]/label/input")).sendKeys("pa");
-				
-				// print the page title
-				System.out.println(driver.getTitle());
-				
-				// click the add new button
-				driver.findElement(By.xpath("/html/body/div[2]/div[4]/button")).click();
-				
-				driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-				
-				// set values to form fields
-				WebElement newUsername = driver.findElement(By.xpath("/html/body/div[3]/div/div/form/div[1]/div[1]/input"));
-				WebElement newPassword = driver.findElement(By.xpath("/html/body/div[3]/div/div/form/div[1]/div[2]/input"));
-				WebElement newFirstName = driver.findElement(By.xpath("/html/body/div[3]/div/div/form/div[1]/div[3]/input"));
-				WebElement newLastName = driver.findElement(By.xpath("/html/body/div[3]/div/div/form/div[1]/div[4]/input"));
-				
-				newUsername.sendKeys("john");
-				newPassword.sendKeys("1234");
-				newFirstName.sendKeys("John");
-				newLastName.sendKeys("Doe");
-				
-				// submit the form
-				driver.findElement(By.xpath("/html/body/div[3]/div/div/form/div[2]/button")).click();
-				
-				try {
-					WebDriverWait wait = new WebDriverWait(driver, 2);
-					wait.until(ExpectedConditions.alertIsPresent());
-					Alert alert = driver.switchTo().alert();
-					System.out.println(alert.getText());
-					
-					if(alert.getText().contains("Data successfully saved.")) {
-						Thread.sleep(5000);
-						alert.accept();
-						throw new Exception(alert.getText());
-						
-					} else if(alert.getText().contains("Username already exist")) {
-						Thread.sleep(5000);
-						alert.accept();
-						// close the model
-						driver.findElement(By.xpath("/html/body/div[3]/div/div/form/div[2]/button")).click();
-						
-						throw new Exception(alert.getText());
-						
-					} else {
-						throw new Error("Loading error!");
-					}
-					
-					
-				} catch(Exception e) {
-					
-				}
-				
-				// delete the user
-				
-				driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/table/tbody/tr[2]/td[4]/center/button[2]")).click();
-				
-				try {
-					Alert alert = driver.switchTo().alert();
-					System.out.println(alert.getText());
-					
-					if(alert.getText().contains("Are you sure to delete this data ")) {
-						Thread.sleep(5000);
-						alert.accept();
-						
-						try
-						{
-							WebDriverWait wait = new WebDriverWait(driver,2);
-							wait.until(ExpectedConditions.alertIsPresent());
-							
-							System.out.println(alert.getText());
-							alert.accept();
-												
-						}
-						
-						catch(Exception e)
-						{
-							//exception handling
-							
-						}
-					}
-					
-					
-				} catch(Exception e) {
-					
-				}
-				
-				
+			if(array_key_exists('Enter', $_POST)) {
+				button1($days,$year);
 			}
 			
+		}
+		
+			function button1($d,$y) {
+				echo "Birthday : ";
+				$day_of_year = $d; 
+
+				 
+				$is_leap_year = date('L', strtotime($y . '-01-01')); // Check if it's a leap year
+
+				if ($is_leap_year) {
+					$date = date('-m-d', strtotime($y . '-01-01 +' . ($day_of_year - 1) . ' days'));
+				} else {
+					$date = date('-m-d', strtotime($y . '-01-01 +' . $day_of_year . ' days'));
+				}
+
+				echo $y.$date;
+			}		
+    ?>
+
+	
+	
+</body>
+  
+</html>
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Roman
+<html>
+
+	<head>
+		<title>ROMAN to DECIMAL</title>
+	</head>
+	<body style="text-align:center;">
+	
+		<fieldset style="boade">
+		<h1><font color="darkblue">ROMAN to DECIMAL converter</font><br><br></h1>
+		
+		<form method="post">
+			<input type="text" name="r" placeholder="Enter roman number hear">
+			<input type="submit" name="button1" value="Convert">
+		</form>
+		
+		<?php
 			
-		}
-		
-	}
+			if(empty($_POST["r"])){
+				
+				echo "Empty";
+				
+			}
+			else{
+				
+				$r=$_POST['r'];
+				
+				if(array_key_exists('button1',$_POST)){
+					
+					Rome($r);
+					
+				}
 
+			}
+		
+			function Rome($ROMAN){
+				$i=0;
+				$RtoD;
+				
+				$I=1;
+				$V=5;
+				$X=10;
+				$L=50;
+				$C=100;
+				$D=500;
+				$M=1000;
+					
+				While(!empty($ROMAN[$i])){
+					
+					if($ROMAN[$i]=='I' || $ROMAN[$i]=='i'){
+						$RtoD[$i]=$I;
+					}
+					else if($ROMAN[$i]=='V' || $ROMAN[$i]=='v'){
+						$RtoD[$i]=$V;
+					}
+					else if($ROMAN[$i]=='X' || $ROMAN[$i]=='x'){
+						$RtoD[$i]=$X;
+					}
+					else if($ROMAN[$i]=='L' || $ROMAN[$i]=='l'){
+						$RtoD[$i]=$L;
+					}
+					else if($ROMAN[$i]=='C' || $ROMAN[$i]=='c'){
+						$RtoD[$i]=$C;
+					}
+					else if($ROMAN[$i]=='D' || $ROMAN[$i]=='d'){
+						$RtoD[$i]=$D;
+					}
+					else if($ROMAN[$i]=='M' || $ROMAN[$i]=='m'){
+						$RtoD[$i]=$M;
+					}else{
+						echo "You enterd an <font color=red>INVALID</font> character";
+						return;
+					}
+					$i++;
+				}
+				
+				$Decimal = $RtoD[0];
+				
+				$i=1;
+				
+				While(!empty($ROMAN[$i])){
+					
+					$Decimal = $Decimal+$RtoD[$i];
+					
+					if($RtoD[$i]>$RtoD[$i-1]){
+						$Decimal=$Decimal-2*$RtoD[$i-1];
+					}
+					
+					$i++;
+				}
+				echo "You enterd : ".$ROMAN."<br><br>";
+				echo "<h3>Your Decimal Number is :<br></h3><h2>".$Decimal."</h2>";
+				
+			}
+		?>
+		</fieldset>
+	</body>
+
+</html>
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+connect
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+$conn = new mysqli($servername, $username, $password);
+
+if($conn->connect_error){
+	die("Connection failed".$conn->connect_error);
 }
 
+$sql = "CREATE DATABASE IF NOT EXISTS Question2";
 
-**********************************************************************************************
-                             test4.java
-**********************************************************************************************
-
-package test_04;
-
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-public class FirstClass {
-
-	public static void main(String[] args) {
-		
-		System.setProperty("werdriver.chrome.driver", "chromedriver.exe");
-		
-		WebDriver driver = new ChromeDriver();
-		
-		driver.navigate().to("file:///C:/Users/sahan/Downloads/registration%20(1).html");
-		
-		
-		driver.manage().window().maximize();
-		
-	
-		driver.findElement(By.name("fn")).sendKeys("Test");		
-		
-		 
-		driver.findElement(By.id("fn2")).sendKeys("User");
-		
-		
-		driver.findElement(By.name("pass1")).sendKeys("12345678");
-		
-		
-		driver.findElement(By.name("pass2")).sendKeys("12345678");
-		
-		
-		driver.findElement(By.id("email")).sendKeys("test@gmail.com");
-		
-		
-		driver.findElement(By.name("mobile")).sendKeys("0656786789");
-		
-	
-		driver.findElement(By.id("description")).sendKeys("NO.545/A, Main Street, London");
-		
-		driver.findElement(By.id("male")).click();
-  	
-		WebElement checkbox1 = driver.findElement(By.className("automation1"));
-		WebElement checkbox2 = driver.findElement(By.className("automation2"));
-		WebElement checkbox3 = driver.findElement(By.className("automation3"));
-		
-		checkbox1.click();
-		checkbox2.click();
-		
-		if(checkbox1.isSelected()) {
-			System.out.println("Checkbox 1 is selected");
-		}
-		
-		if(checkbox2.isSelected()) {
-			System.out.println("Checkbox 2 is selected");
-		}
-		
-		if(checkbox3.isSelected()) {
-			System.out.println("Checkbox 3 is selected");
-		}
-		
-		driver.findElement(By.id("country")).sendKeys("India");
-		
-		//for(int i = 0; i < 10; i++) {
-		//	driver.findElement(By.id("scale")).sendKeys(Keys.RIGHT);
-		//}
-		
-		
-		
-		
-		
-		//driver.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
-		
-		//driver.close();
-		//driver.quit();
-		
-	}
-
+if($conn->query($sql) === TRUE){
+	echo "Database created";
+}
+else{
+	echo "ERROR".$conn->error;
 }
 
+$dbname = "Question2";
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+
+$sql = "CREATE TABLE IF NOT EXISTS guests (guestname VARCHAR(40), address VARCHAR(60), email VARCHAR(50), phone_no VARCHAR(20), room_type VARCHAR(15), arri_date DATE, dept_date DATE)";
+if($conn->query($sql) === TRUE){
+	echo "Table created";
+}
+else{
+	echo "ERROR".$conn->error;
+}
+
+$backupFile = 'guest.sql';
+$command = "mysqldump --host={$servername} --user={$username} --password={$password} {$dbname} > {$backupFile}";
+
+exec($command, $output, $returnValue);
+
+if ($returnValue === 0) {
+    echo "Backup created successfully and saved to {$backupFile}";
+} else {
+    echo "Error creating backup: " . implode("\n", $output);
+}
+$conn->close();
+?> 
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Insert values 
+if($conn->connect_error){
+	die("Connection failed".$conn->connect_error);
+}
+
+$sql = "INSERT INTO guests VALUES('John Doe', '123 Main St', 'john.doe@example.com', '555-1234', 'Single Room', '2024-01-20', '2024-01-25')";
+if($conn->query($sql) === TRUE){
+	echo "Added";
+}
+
+else{
+echo "ERROR".$conn->error;
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------
